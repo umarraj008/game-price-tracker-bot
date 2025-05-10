@@ -1,0 +1,20 @@
+# Use Python 3.11 as base image
+FROM python:3.11
+
+# Set work directory
+WORKDIR /app
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy bot script
+COPY bot.py .
+
+# Set environment variables (these will be provided when running the container)
+ENV DISCORD_TOKEN=""
+ENV DISCORD_CHANNEL_ID=""
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
